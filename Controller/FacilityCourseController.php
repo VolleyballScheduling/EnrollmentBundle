@@ -1,5 +1,5 @@
 <?php
-namespace Volleyball\Bundle\EnrollmentBundle\Controller;
+namespace Volleyball\Bundle\CourseBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -8,21 +8,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 
-use Volleyball\Bundle\EnrollmentBundle\Entity\PasselEnrollment;
-use Volleyball\Bundle\EnrollmentBundle\Form\Type\PasselEnrollmentType;
+use Volleyball\Bundle\CourseBundle\Entity\FacilityCourse;
+use Volleyball\Bundle\CourseBundle\Form\Type\FacilityCourseType;
 use Volleyball\Bundle\UtilityBundle\Controller\UtilityController as Controller;
 
-class PasselEnrollmentController extends Controller
+class FacilityCourseController extends Controller
 {
     /**
-     * @Route("/", name="volleyball_passel_enrollment_index")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:index.html.twig")
+     * @Route("/", name="volleyball_facility_course_index")
+     * @Template("VolleyballCourseBundle:FacilityCourse:index.html.twig")
      */
     public function indexAction(Request $request)
     {
         // get route name/params to decypher data to delimit by
         $query = $this->get('doctrine')
-            ->getRepository('VolleyballEnrollmentBundle:PasselEnrollment')
+            ->getRepository('VolleyballCourseBundle:FacilityCourse')
             ->createQueryBuilder('l')
             ->orderBy('l.updated, l.name', 'ASC');
 
@@ -31,59 +31,59 @@ class PasselEnrollmentController extends Controller
         $pager->setCurrentPage($this->getRequest()->get('page', 1));
 
         return array(
-          'passel_enrollments' => $pager->getCurrentPageResults(),
+          'facility_courses' => $pager->getCurrentPageResults(),
           'pager'  => $pager
         );
     }
 
     /**
-     * @Route("/{slug}", name="volleyball_passel_enrollment_show")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:show.html.twig")
+     * @Route("/{slug}", name="volleyball_facility_course_show")
+     * @Template("VolleyballCourseBundle:FacilityCourse:show.html.twig")
      */
     public function showAction(Request $request)
     {
         $slug = $request->getParameter('slug');
-        $passel_enrollment = $this->getDoctrine()
-            ->getRepository('VolleyballEnrollmentBundle:PasselEnrollment')
+        $facility_course = $this->getDoctrine()
+            ->getRepository('VolleyballCoursebundle:FacilityCourse')
             ->findOneBySlug($slug);
 
-        if (!$passel_enrollment) {
+        if (!$facility_course) {
             $this->get('session')
                 ->getFlashBag()->add(
                     'error',
-                    'no matching passel_enrollment found.'
+                    'no matching facility_course found.'
                 );
-            $this->redirect($this->generateUrl('volleyball_passel_enrollment_index'));
+            $this->redirect($this->generateUrl('volleyball_facility_course_index'));
         }
 
-        return array('passel_enrollment' => $passel_enrollment);
+        return array('facility_course' => $facility_course);
     }
 
     /**
-     * @Route("/new", name="volleyball_passel_enrollment_new")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:new.html.twig")
+     * @Route("/new", name="volleyball_facility_course_new")
+     * @Template("VolleyballCourseBundle:FacilityCourse:new.html.twig")
      */
     public function newAction(Request $request)
     {
-        $passel_enrollment = new PasselEnrollment();
-        $form = $this->createForm(new PasselEnrollmentType(), $passel_enrollment);
+        $facility_course = new FacilityCourse();
+        $form = $this->createForm(new FacilityCourseType(), $facility_course);
 
         if ("POST" == $request->getMethod()) {
             $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($passel_enrollment);
+                $em->persist($facility_course);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
                     'success',
-                    'passel_enrollment created.'
+                    'facility course created.'
                 );
 
                 return $this->render(
-                    'VolleyballEnrollmentBundle:PasselEnrollment:show.html.twig',
+                    'VolleyballCourseBundle:FacilityCourse:show.html.twig',
                     array(
-                        'passel_enrollment' => $passel_enrollment
+                        'facility_course' => $facility_course
                     )
                 );
             }

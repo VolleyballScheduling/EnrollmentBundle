@@ -8,21 +8,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 
-use Volleyball\Bundle\EnrollmentBundle\Entity\PasselEnrollment;
-use Volleyball\Bundle\EnrollmentBundle\Form\Type\PasselEnrollmentType;
+use Volleyball\Bundle\EnrollmentBundle\Entity\Season;
+use Volleyball\Bundle\EnrollmentBundle\Form\Type\SeasonType;
 use Volleyball\Bundle\UtilityBundle\Controller\UtilityController as Controller;
 
-class PasselEnrollmentController extends Controller
+class SeasonController extends Controller
 {
     /**
-     * @Route("/", name="volleyball_passel_enrollment_index")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:index.html.twig")
+     * @Route("/", name="volleyball_season_index")
+     * @Template("VolleyballEnrollmentBundle:Season:index.html.twig")
      */
     public function indexAction(Request $request)
     {
         // get route name/params to decypher data to delimit by
         $query = $this->get('doctrine')
-            ->getRepository('VolleyballEnrollmentBundle:PasselEnrollment')
+            ->getRepository('VolleyballEnrollmentBundle:Season')
             ->createQueryBuilder('l')
             ->orderBy('l.updated, l.name', 'ASC');
 
@@ -31,59 +31,59 @@ class PasselEnrollmentController extends Controller
         $pager->setCurrentPage($this->getRequest()->get('page', 1));
 
         return array(
-          'passel_enrollments' => $pager->getCurrentPageResults(),
+          'seasons' => $pager->getCurrentPageResults(),
           'pager'  => $pager
         );
     }
 
     /**
-     * @Route("/{slug}", name="volleyball_passel_enrollment_show")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:show.html.twig")
+     * @Route("/{slug}", name="volleyball_season_show")
+     * @Template("VolleyballEnrollmentBundle:Season:show.html.twig")
      */
     public function showAction(Request $request)
     {
         $slug = $request->getParameter('slug');
-        $passel_enrollment = $this->getDoctrine()
-            ->getRepository('VolleyballEnrollmentBundle:PasselEnrollment')
+        $season = $this->getDoctrine()
+            ->getRepository('VolleyballEnrollmentBundle:Season')
             ->findOneBySlug($slug);
 
-        if (!$passel_enrollment) {
+        if (!$season) {
             $this->get('session')
                 ->getFlashBag()->add(
                     'error',
-                    'no matching passel_enrollment found.'
+                    'no matching season found.'
                 );
-            $this->redirect($this->generateUrl('volleyball_passel_enrollment_index'));
+            $this->redirect($this->generateUrl('volleyball_season_index'));
         }
 
-        return array('passel_enrollment' => $passel_enrollment);
+        return array('season' => $season);
     }
 
     /**
-     * @Route("/new", name="volleyball_passel_enrollment_new")
-     * @Template("VolleyballEnrollmentBundle:PasselEnrollment:new.html.twig")
+     * @Route("/new", name="volleyball_season_new")
+     * @Template("VolleyballEnrollmentBundle:Season:new.html.twig")
      */
     public function newAction(Request $request)
     {
-        $passel_enrollment = new PasselEnrollment();
-        $form = $this->createForm(new PasselEnrollmentType(), $passel_enrollment);
+        $season = new Season();
+        $form = $this->createForm(new SeasonType(), $season);
 
         if ("POST" == $request->getMethod()) {
             $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($passel_enrollment);
+                $em->persist($season);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
                     'success',
-                    'passel_enrollment created.'
+                    'season created.'
                 );
 
                 return $this->render(
-                    'VolleyballEnrollmentBundle:PasselEnrollment:show.html.twig',
+                    'VolleyballEnrollmentBundle:Season:show.html.twig',
                     array(
-                        'passel_enrollment' => $passel_enrollment
+                        'season' => $season
                     )
                 );
             }

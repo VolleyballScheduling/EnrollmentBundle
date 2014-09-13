@@ -73,7 +73,7 @@ class PasselEnrollment
      * @param Volleyball\Bundle\PasselBundle\Entity\Passel $passel
      * @return PasselEnrollment
      */
-    public function setPassel(Passel $passel = null)
+    public function setPassel(\Volleyball\Component\Passel\Model\Passel $passel = null)
     {
         $this->passel = $passel;
 
@@ -96,7 +96,7 @@ class PasselEnrollment
      * @param Volleyball\Bundle\FacilityBundle\Entity\Facility $facility
      * @return PasselEnrollment
      */
-    public function setFacility(Facility $facility = null)
+    public function setFacility(\Volleyball\Component\Facility\Model\Facility $facility = null)
     {
         $this->facility = $facility;
 
@@ -119,7 +119,7 @@ class PasselEnrollment
      * @param Volleyball\Bundle\EnrollmentBundle\Entity\Week $week
      * @return PasselEnrollment
      */
-    public function setWeek(Week $week = null)
+    public function setWeek(\Volleyball\Component\Enrollment\Model\Week $week = null)
     {
         $this->week = $week;
 
@@ -142,7 +142,7 @@ class PasselEnrollment
      * @param Volleyball\Bundle\EnrollmentBundle\Entity\Season $season
      * @return PasselEnrollment
      */
-    public function setSeason(Season $season = null)
+    public function setSeason(\Volleyball\Component\Enrollment\Model\Season $season = null)
     {
         $this->season = $season;
 
@@ -165,7 +165,7 @@ class PasselEnrollment
      * @param Volleyball\Bundle\FacilityBundle\Entity\Quarters $quarters
      * @return PasselEnrollment
      */
-    public function setQuarters(Quarters $quarters = null)
+    public function setQuarters(\Volleyball\Component\Facility\Model\Quarters $quarters = null)
     {
         $this->quarters = $quarters;
 
