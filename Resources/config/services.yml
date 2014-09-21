@@ -1,7 +1,36 @@
-parameters:
-#    Volleyball_enrollment.example.class: Volleyball\EnrollmentBundle\Example
-
 services:
-#    Volleyball_enrollment.example:
-#        class: %Volleyball_enrollment.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    volleyball.controller.active_enrollment:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\ActiveEnrollmentController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "active_enrollment", "VolleyballEnrollmentBundle:ActiveEnrollment"]
+    volleyball.controller.passel_enrollment:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\PasselEnrollmentController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "passel_enrollment", "VolleyballEnrollmentBundle:PasselEnrollment"]
+    volleyball.controller.attendee_enrollment:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\AttendeeEnrollmentController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "attendee_enrollment", "VolleyballEnrollmentBundle:AttendeeEnrollment"]
+    volleyball.controller.season:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\SeasonController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "season", "VolleyballEnrollmentBundle:Season"]
+    volleyball.controller.week:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\WeekController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "week", "VolleyballEnrollmentBundle:Week"]
+    volleyball.controller.period:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\PeriodController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "period", "VolleyballEnrollmentBundle:Period"]
+    volleyball.controller.facility_course:
+        class: Volleyball\Bundle\EnrollmentBundle\Controller\FacilityCourseController
+        factory_service: sylius.controller.configuration_factory
+        factory_method: createConfiguration
+        arguments: ["sylius", "facility_course", "VolleyballEnrollmentBundle:FacilityCourse"]
