@@ -1,8 +1,13 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
-class PasselEnrollmentRepository extends EntityRepository
+class PasselEnrollmentRepository extends \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAlias()
+    {
+        return 'passel_enrollment';
+    }
 }

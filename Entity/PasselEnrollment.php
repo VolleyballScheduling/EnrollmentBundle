@@ -1,22 +1,17 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
 
-use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
-use Volleyball\Bundle\PasselBundle\Entity\Passel;
-use Volleyball\Bundle\FacilityBundle\Entity\Quarters;
-use Volleyball\Bundle\FacilityBundle\Entity\Facility;
-use Volleyball\Bundle\EnrollmentBundle\Entity\Week;
-use Volleyball\Bundle\EnrollmentBundle\Entity\Season;
+use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\PasselEnrollmentCollectionRepository")
  * @ORM\Table(name="passel_enrollment")
  */
-class PasselEnrollment
+class PasselEnrollment implements \Volleyball\Component\Enrollment\Interfaces\PasselEnrollmentInterface
 {
     use TimestampableTrait;
 
@@ -68,12 +63,9 @@ class PasselEnrollment
     }
 
     /**
-     * Set passel
-     *
-     * @param Volleyball\Bundle\PasselBundle\Entity\Passel $passel
-     * @return PasselEnrollment
+     * @inheritdoc
      */
-    public function setPassel(\Volleyball\Component\Passel\Model\Passel $passel = null)
+    public function setPassel(\Volleyball\Bundle\PasselBundle\Entity\Passel $passel = null)
     {
         $this->passel = $passel;
 
@@ -81,9 +73,7 @@ class PasselEnrollment
     }
 
     /**
-     * Get passel
-     *
-     * @return \Volleyball\Bundle\PasselBundle\Entity\Passel
+     * @inheritdoc
      */
     public function getPassel()
     {
@@ -91,12 +81,9 @@ class PasselEnrollment
     }
 
     /**
-     * Set facility
-     *
-     * @param Volleyball\Bundle\FacilityBundle\Entity\Facility $facility
-     * @return PasselEnrollment
+     * @inheritdoc
      */
-    public function setFacility(\Volleyball\Component\Facility\Model\Facility $facility = null)
+    public function setFacility(\Volleyball\Bundle\FacilityBundle\Entity\Facility $facility = null)
     {
         $this->facility = $facility;
 
@@ -104,9 +91,7 @@ class PasselEnrollment
     }
 
     /**
-     * Get facility
-     *
-     * @return Volleyball\Bundle\FacilityBundle\Entity\Facility
+     * @inheritdoc
      */
     public function getFacility()
     {
@@ -114,12 +99,9 @@ class PasselEnrollment
     }
 
     /**
-     * Set week
-     *
-     * @param Volleyball\Bundle\EnrollmentBundle\Entity\Week $week
-     * @return PasselEnrollment
+     * @inheritdoc
      */
-    public function setWeek(\Volleyball\Component\Enrollment\Model\Week $week = null)
+    public function setWeek(\Volleyball\Bundle\EnrollmentBundle\Entity\Week $week = null)
     {
         $this->week = $week;
 
@@ -127,9 +109,7 @@ class PasselEnrollment
     }
 
     /**
-     * Get week
-     *
-     * @return Volleyball\Bundle\EnrollmentBundle\Entity\Week
+     * @inheritdoc
      */
     public function getWeek()
     {
@@ -137,12 +117,9 @@ class PasselEnrollment
     }
 
     /**
-     * Set season
-     *
-     * @param Volleyball\Bundle\EnrollmentBundle\Entity\Season $season
-     * @return PasselEnrollment
+     * @inheritdoc
      */
-    public function setSeason(\Volleyball\Component\Enrollment\Model\Season $season = null)
+    public function setSeason(\Volleyball\Bundle\EnrollmentBundle\Entity\Season $season = null)
     {
         $this->season = $season;
 
@@ -150,9 +127,7 @@ class PasselEnrollment
     }
 
     /**
-     * Get season
-     *
-     * @return Volleyball\Bundle\EnrollmentBundle\Entity\Season
+     * @inheritdoc
      */
     public function getSeason()
     {
@@ -160,12 +135,9 @@ class PasselEnrollment
     }
 
     /**
-     * Set quarters
-     *
-     * @param Volleyball\Bundle\FacilityBundle\Entity\Quarters $quarters
-     * @return PasselEnrollment
+     * @inheritdoc
      */
-    public function setQuarters(\Volleyball\Component\Facility\Model\Quarters $quarters = null)
+    public function setQuarters(\Volleyball\Bundle\FacilityBundle\Entity\Quarters $quarters = null)
     {
         $this->quarters = $quarters;
 
@@ -173,9 +145,7 @@ class PasselEnrollment
     }
 
     /**
-     * Get quarters
-     *
-     * @return Volleyball\Bundle\FacilityBundle\Entity\Quarters
+     * @inheritdoc
      */
     public function getQuarters()
     {

@@ -1,22 +1,21 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
-use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
+use \Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
+use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\PeriodRepository")
  * @ORM\Table(name="period")
  */
-class Period
+class Period implements \Volleyball\Component\Enrollment\Interfaces\PeriodInterface
 {
     use SluggableTrait;
     use TimestampableTrait;
-
 
     /**
      * @ORM\Id
@@ -25,6 +24,41 @@ class Period
      */
     protected $id;
 
+    /**
+     * Name
+     * @var  string name
+     * @ORM\Column(name="name", type="string")
+     */
+    protected $name = '';
+    
+    /**
+     * Description
+     * @var  string description
+     * @ORM\Column(name="description", type="string")
+     */
+    protected $description = '';
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Week", inversedBy="period")
+     * @ORM\JoinColumn(name="week_id", referencedColumnName="id")
+     */
+    protected $week;
+    
+    /**
+     * @ORM\Column(type="time")
+     */
+    protected $start;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    protected $end;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $special;   
+    
     /**
      * Get id
      *
@@ -36,16 +70,7 @@ class Period
     }
 
     /**
-     * Name
-     * @var  string name
-     * @ORM\Column(name="name", type="string")
-     */
-    protected $name = '';
-
-    /**
-     * Get name
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
@@ -53,11 +78,7 @@ class Period
     }
 
     /**
-     * Set name
-     *
-     * @param string $name name
-     *
-     * @return self
+     * @inheritdoc
      */
     public function setName($name)
     {
@@ -67,16 +88,34 @@ class Period
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Week", inversedBy="period")
-     * @ORM\JoinColumn(name="week_id", referencedColumnName="id")
+     * @inheritdoc
      */
-    protected $week;
-
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
+        return $this;
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function getWeek()
     {
         return $this->week;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setWeek(Week $week)
     {
         $this->week = $week;
@@ -85,26 +124,26 @@ class Period
     }
 
     /**
-     * @ORM\Column(type="time")
-     */
-    protected $start;
-
-    /**
-     * Get date
+     * Get formatted date
      *
      * @param  string $format format
      * @return string
      */
-    public function getStart($format = 'H:m a')
+    public function getFormattedStart($format = 'M/d/Y')
     {
-        return date($format, $this->start);
+        return date($format, $this->start->getTimestamp());
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getStart()
+    {
+        return $this->start;
     }
 
     /**
-     * Set start
-     *
-     * @param  DateTime $start start
-     * @return Period
+     * @inheritdoc
      */
     public function setStart(\DateTime $start)
     {
@@ -114,26 +153,26 @@ class Period
     }
 
     /**
-     * @ORM\Column(type="time")
-     */
-    protected $end;
-
-    /**
-     * Get date
+     * Get formatted date
      *
-     * @param  date   $format format
+     * @param  string $format format
      * @return string
      */
-    public function getEnd($format = 'M/d/Y')
+    public function getFormattedEnd($format = 'M/d/Y')
     {
-        return date($format, $this->end);
+        return date($format, $this->end->getTimestamp());
     }
 
     /**
-     * Set end
-     *
-     * @param  DateTime $end end
-     * @return Period
+     * @inheritdoc
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+    
+    /**
+     * @inheritdoc
      */
     public function setEnd(\DateTime $end)
     {
@@ -141,11 +180,6 @@ class Period
 
         return $this;
     }
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $special;
 
     /**
      * Is special
@@ -157,13 +191,14 @@ class Period
     public function isSpecial($special = null)
     {
         if (null != $special) {
-            $this->special = $special;
+            $this->special = (bool)$special;
 
             return $this;
         }
 
         return $this->special;
     }
+    
 
     /**
      * Set special

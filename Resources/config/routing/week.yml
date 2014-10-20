@@ -1,0 +1,26 @@
+# Week
+volleyball_week_index:
+    path: /weeks
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.week:indexAction
+volleyball_week_show:
+    path: /weeks/{week_slug}
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.week:showAction
+volleyball_week_new:
+    path: /weeks/new
+    methods: [GET, POST]
+    defaults:
+        _controller: volleyball.controller.week:newAction
+volleyball_week_index_by_season:
+    path: /seasons/{season_slug}/weeks
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.week:indexAction
+volleyball_week_index_by_facility:
+    path: /facilities/{facility_slug}/weeks
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.week:indexAction

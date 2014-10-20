@@ -1,0 +1,16 @@
+# AttendeeEnrollment
+volleyball_attendee_enrollment_index:
+    path: /attendee/{attendee_slug}/enrollments
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.attendee_enrollment:indexAction
+volleyball_attendee_enrollment_show:
+    path: /attendee/{attendee_slug}/enrollments/{attendee_enrollment_slug}
+    methods: [GET]
+    defaults:
+        _controller: volleyball.controller.attendee_enrollment:showAction
+volleyball_attendee_enrollment_new:
+    path: /attendee/{attendee_slug}/enrollments/new
+    methods: [GET, POST]
+    defaults:
+        _controller: volleyball.controller.attendee_enrollment:newAction

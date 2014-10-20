@@ -1,8 +1,14 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
-class AttendeeEnrollmentRepository extends EntityRepository
+class AttendeeEnrollmentRepository extends \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAlias()
+    {
+        return 'attendee_enrollment';
+    }
 }
+    

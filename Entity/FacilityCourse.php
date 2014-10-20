@@ -1,24 +1,20 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
-use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use Volleyball\Bundle\CourseBundle\Entity\Course;
-use Volleyball\Bundle\FacilityBundle\Entity\Facility;
-use Volleyball\Bundle\EnrollmentBundle\Entity\Season;
+use \Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
+use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\FacilityCourseRepository")
  * @ORM\Table(name="facility_enrollment")
  */
-class FacilityCourse
+class FacilityCourse implements \Volleyball\Component\Enrollment\Interfaces\FacilityCourseInterface
 {
     use TimestampableTrait;
-
 
     /**
      * @ORM\Id
@@ -26,16 +22,6 @@ class FacilityCourse
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\CourseBundle\Entity\Course", inversedBy="facility_course")
@@ -56,12 +42,19 @@ class FacilityCourse
     protected $season = null;
 
     /**
-     * Set course
+     * Get id
      *
-     * @param \Volleyball\Bundle\CourseBundle\Entity\Course $course
-     * @return FacilityCourse
+     * @return integer
      */
-    public function setCourse(Course $course = null)
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCourse(\Volleyball\Bundle\CourseBundle\Entity\Course $course = null)
     {
         $this->course = $course;
 
@@ -69,9 +62,7 @@ class FacilityCourse
     }
 
     /**
-     * Get course
-     *
-     * @return Volleyball\Bundle\CourseBundle\Entity\Course
+     * @inheritdoc
      */
     public function getCourse()
     {
@@ -79,12 +70,9 @@ class FacilityCourse
     }
 
     /**
-     * Set facility
-     *
-     * @param Volleyball\Bundle\FacilityBundle\Entity\Facility $facility
-     * @return FacilityCourse
+     * @inheritdoc
      */
-    public function setFacility(Facility $facility = null)
+    public function setFacility(\Volleyball\Bundle\FacilityBundle\Entity\Facility $facility = null)
     {
         $this->facility = $facility;
 
@@ -92,9 +80,7 @@ class FacilityCourse
     }
 
     /**
-     * Get facility
-     *
-     * @return Volleyball\Bundle\FacilityBundle\Entity\Facility
+     * @inheritdoc
      */
     public function getFacility()
     {
@@ -102,12 +88,9 @@ class FacilityCourse
     }
 
     /**
-     * Set season
-     *
-     * @param Volleyball\Bundle\EnrollmentBundle\Entity\Season $season
-     * @return FacilityCourse
+     * @inheritdoc
      */
-    public function setSeason(Season $season = null)
+    public function setSeason(\Volleyball\Bundle\EnrollmentBundle\Entity\Season $season = null)
     {
         $this->season = $season;
 
@@ -115,9 +98,7 @@ class FacilityCourse
     }
 
     /**
-     * Get season
-     *
-     * @return Volleyball\Bundle\EnrollmentBundle\Entity\Season
+     * @inheritdoc
      */
     public function getSeason()
     {

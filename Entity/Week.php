@@ -1,14 +1,13 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\Common\Collections\ArrayCollection;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-
-use Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
-use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
+use \Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
+use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\WeekRepository")
@@ -19,13 +18,12 @@ class Week
     use SluggableTrait;
     use TimestampableTrait;
 
-
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->s = new ArrayCollection();
+        $this->periods = new ArrayCollection();
     }
 
     /**
@@ -34,6 +32,45 @@ class Week
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * Name
+     * @var  string name
+     * @ORM\Column(name="name", type="string")
+     */
+    protected $name = '';
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Season", inversedBy="week")
+     * @ORM\JoinColumn(name="season_id", referencedColumnName="id")
+     */
+    protected $season;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="week")
+     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
+     */
+    protected $facility;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Period", mappedBy="week")
+     */
+    protected $periods;
+    
+    /**
+     * @ORM\Column(type="date")
+     */
+    protected $start;
+    
+    /**
+     * @ORM\Column(type="date")
+     */
+    protected $end;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $special;
 
     /**
      * Get id
@@ -46,16 +83,7 @@ class Week
     }
 
     /**
-     * Name
-     * @var  string name
-     * @ORM\Column(name="name", type="string")
-     */
-    protected $name = '';
-
-    /**
-     * Get name
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
@@ -63,24 +91,14 @@ class Week
     }
 
     /**
-     * Set name
-     *
-     * @param string $name name
-     *
-     * @return self
+     * @inheritdoc
      */
     public function setName($name)
     {
         $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Season", inversedBy="week")
-     * @ORM\JoinColumn(name="season_id", referencedColumnName="id")
-     */
-    protected $season;
+    }   
 
     public function getSeason()
     {
@@ -88,12 +106,9 @@ class Week
     }
 
     /**
-     * Set Season
-     *
-     * @param  Season $season season
-     * @return Week
+     * @inheritdoc
      */
-    public function setSeason(Season $season)
+    public function setSeason(\Volleyball\Bundle\EnrollmentBundle\Entity\Season $season)
     {
         $this->season = $season;
 
@@ -101,38 +116,25 @@ class Week
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="week")
-     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
+     * @inheritdoc
      */
-    protected $facility;
-
     public function getFacility()
     {
         return $this->facility;
     }
 
     /**
-     * Set Facility
-     *
-     * @param  Facility $facility facility
-     * @return Week
+     * @inheritdoc
      */
-    public function setFacility(Facility $facility)
+    public function setFacility(\Volleyball\Bundle\FacilityBundle\Entity\Facility $facility)
     {
         $this->facility = $facility;
 
         return $this;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="Period", mappedBy="week")
-     */
-    protected $periods;
-
      /**
-     * Get periods
-     *
-     * @return ArrayCollection
+     * @inheritdoc
      */
     public function getPeriods()
     {
@@ -140,11 +142,7 @@ class Week
     }
 
     /**
-     * Set periods
-     *
-     * @param array $periods periods
-     *
-     * @return self
+     * @inheritdoc
      */
     public function setPeriods(array $periods)
     {
@@ -168,11 +166,7 @@ class Week
     }
 
     /**
-     * Get an period
-     *
-     * @param Period|String $period period
-     *
-     * @return Period
+     * @inheritdoc
      */
     public function getPeriod($period)
     {
@@ -180,13 +174,9 @@ class Week
     }
 
     /**
-     * Add an period
-     *
-     * @param Period $period period
-     *
-     * @return self
+     * @inheritdoc
      */
-    public function addPeriod(Period $period)
+    public function addPeriod(\Volleyball\Bundle\EnrollmentBundle\Entity\Period $period)
     {
         $this->periods->add($period);
 
@@ -208,26 +198,26 @@ class Week
     }
 
     /**
-     * @ORM\Column(type="date")
-     */
-    protected $start;
-
-    /**
-     * Get date
+     * Get formatted date
      *
      * @param  string $format format
      * @return string
      */
-    public function getStart($format = 'M/d/Y')
+    public function getFormattedStart($format = 'M/d/Y')
     {
-        return date($format, $this->start);
+        return date($format, $this->start->getTimestamp());
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getStart()
+    {
+        return $this->start;
     }
 
     /**
-     * Set start
-     *
-     * @param  DateTime $start start
-     * @return Week
+     * @inheritdoc
      */
     public function setStart(\DateTime $start)
     {
@@ -237,26 +227,26 @@ class Week
     }
 
     /**
-     * @ORM\Column(type="date")
-     */
-    protected $end;
-
-    /**
-     * Get date
+     * Get formatted date
      *
      * @param  string $format format
      * @return string
      */
-    public function getEnd($format = 'M/d/Y')
+    public function getFormattedEnd($format = 'M/d/Y')
     {
-        return date($format, $this->end);
+        return date($format, $this->end->getTimestamp());
     }
 
     /**
-     * Set end
-     *
-     * @param  DateTime $end end
-     * @return Week
+     * @inheritdoc
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+    
+    /**
+     * @inheritdoc
      */
     public function setEnd(\DateTime $end)
     {
@@ -266,21 +256,12 @@ class Week
     }
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $special;
-
-    /**
-     * Is special
-     *
-     * @param boolean $special special
-     *
-     * @return Week
+     * @inheritdoc
      */
     public function isSpecial($special = null)
     {
         if (null != $special) {
-            $this->special = $special;
+            $this->special = (bool)$special;
 
             return $this;
         }

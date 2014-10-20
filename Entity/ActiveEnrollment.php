@@ -1,18 +1,9 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-
-use Volleyball\Bundle\OrganizationBundle\Entity\Organization;
-use Volleyball\Bundle\OrganizationBundle\Entity\Council;
-use Volleyball\Bundle\OrganizationBundle\Entity\Region;
-use Volleyball\Bundle\PasselBundle\Entity\Passel;
-use Volleyball\Bundle\PasselBundle\Entity\Attendee;
-use Volleyball\Bundle\PasselBundle\Entity\Leader;
-use Volleyball\Bundle\FacilityBundle\Entity\Facility;
-use Volleyball\Bundle\UserBundle\Entity\User;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -26,10 +17,70 @@ class ActiveEnrollment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Organization", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
+     */
+    protected $organization = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Council", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="council_id", referencedColumnName="id")
+     */
+    protected $council = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Region", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="region_id", referencedColumnName="id")
+     */
+    protected $region = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Passel", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="passel_id", referencedColumnName="id")
+     */
+    protected $passel;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Leader", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="leader_id", referencedColumnName="id")
+     */
+    protected $leader = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
+     */
+    protected $facility;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Attendee", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="attendee_id", referencedColumnName="id")
+     */
+    protected $attendee = null;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Season", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="season_id", referencedColumnName="id")
+     */
+    protected $season;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Week", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="week_id", referencedColumnName="id")
+     */
+    protected $week;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\UserBundle\Entity\User", inversedBy="active_enrollment")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
 
     /**
      * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -38,14 +89,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Organization", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
-     */
-    protected $organization = null;
-
-    /**
      * Get Organization
-     *
      * @return Volleyball\Bundle\OrganizationBundle\Entity\Organization
      */
     public function getOrganization()
@@ -55,26 +99,18 @@ class ActiveEnrollment
 
     /**
      * Set Organization
-     *
      * @param \Volleyball\Bundle\OrganizatonBundle\Entity\Organization $organization
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setOrganization(Organization $organization)
+    public function setOrganization(\Volleyball\Bundle\OrganizationBundle\Entity\Organization $organization)
     {
         $this->organization = $organization;
 
         return $this;
-    }
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Council", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="council_id", referencedColumnName="id")
-     */
-    protected $council = null;
+    }   
 
     /**
      * Get Council
-     *
      * @return Volleyball\Bundle\OrganizationBundle\Entity\Council
      */
     public function getCouncil()
@@ -84,11 +120,10 @@ class ActiveEnrollment
 
     /**
      * Set Council
-     *
      * @param \Volleyball\Bundle\OrganizationBundle\Entity\Council $council
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setCouncil(Council $council)
+    public function setCouncil(\Volleyball\Bundle\OrganizationBundle\Entity\Council $council)
     {
         $this->council = $council;
 
@@ -96,14 +131,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\OrganizationBundle\Entity\Region", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="region_id", referencedColumnName="id")
-     */
-    protected $region = null;
-
-    /**
      * Get Region
-     *
      * @return Volleyball\Bundle\OrganizationBundle\Entity\Region
      */
     public function getRegion()
@@ -113,11 +141,10 @@ class ActiveEnrollment
 
     /**
      * Set Region
-     *
      * @param \Volleyball\Bundle\OrganizationBundle\Entity\Region $region
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setRegion(Region $region)
+    public function setRegion(\Volleyball\Bundle\OrganizationBundle\Entity\Region $region)
     {
         $this->region = $region;
 
@@ -125,14 +152,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Passel", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="passel_id", referencedColumnName="id")
-     */
-    protected $passel;
-
-    /**
      * Get Passel
-     *
      * @return Volleyball\Bundle\PasselBundle\Entity\Passel
      */
     public function getPassel()
@@ -142,11 +162,10 @@ class ActiveEnrollment
 
     /**
      * Set Passel
-     *
      * @param \Volleyball\Bundle\PasselBundle\Entity\Passel $passel
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setPassel(Passel $passel)
+    public function setPassel(\Volleyball\Bundle\PasselBundle\Entity\Passel $passel)
     {
         $this->passel = $passel;
 
@@ -154,14 +173,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Attendee", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="attendee_id", referencedColumnName="id")
-     */
-    protected $attendee = null;
-
-    /**
      * Get Attendee
-     *
      * @return Volleyball\Bundle\PasselBundle\Entity\Attendee
      */
     public function getAttendee()
@@ -171,11 +183,10 @@ class ActiveEnrollment
 
     /**
      * Set Attendee
-     *
      * @param \Volleyball\Bundle\PasselBundle\Entity\Attendee $attendee
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setAttendee(Attendee $attendee)
+    public function setAttendee(\Volleyball\Bundle\PasselBundle\Entity\Attendee $attendee)
     {
         $this->attendee = $attendee;
 
@@ -183,14 +194,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\PasselBundle\Entity\Leader", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="leader_id", referencedColumnName="id")
-     */
-    protected $leader = null;
-
-    /**
      * Get Leader
-     *
      * @return Volleyball\Bundle\PasselBundle\Entity\Leader
      */
     public function getLeader()
@@ -200,11 +204,10 @@ class ActiveEnrollment
 
     /**
      * Set Leader
-     *
      * @param \Volleyball\Bundle\PasselBundle\Entity\Leader $leader
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setLeader(Leader $leader)
+    public function setLeader(\Volleyball\Bundle\PasselBundle\Entity\Leader $leader)
     {
         $this->leader = $leader;
 
@@ -212,14 +215,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
-     */
-    protected $facility;
-
-    /**
      * Get Facility
-     *
      * @return Volleyball\Bundle\FacilityBundle\Entity\Facility
      */
     public function getFacility()
@@ -229,11 +225,10 @@ class ActiveEnrollment
 
     /**
      * Set Facility
-     *
      * @param \Volleyball\Bundle\FacilityBundle\Entity\Facility $facility
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setFacility(Facility $facility)
+    public function setFacility(\Volleyball\Bundle\FacilityBundle\Entity\Facility $facility)
     {
         $this->facility = $facility;
 
@@ -241,14 +236,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Season", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="season_id", referencedColumnName="id")
-     */
-    protected $season;
-
-    /**
      * Get Season
-     *
      * @return Volleyball\Bundle\EnrollmentBundle\Entity\Season
      */
     public function getSeason()
@@ -261,7 +249,7 @@ class ActiveEnrollment
      * @param \Volleyball\Bundle\EnrollmentBundle\Entity\Season $season
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setSeason(Season $season)
+    public function setSeason(\Volleyball\Bundle\EnrollmentBundle\Entity\Season $season)
     {
         $this->season = $season;
 
@@ -269,14 +257,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\EnrollmentBundle\Entity\Week", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="week_id", referencedColumnName="id")
-     */
-    protected $week;
-
-    /**
      * Get Week
-     *
      * @return Volleyball\Bundle\EnrollmentBundle\Entity\Week
      */
     public function getWeek()
@@ -289,7 +270,7 @@ class ActiveEnrollment
      * @param \Volleyball\Bundle\EnrollmentBundle\Entity\Week $week
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setWeek(Week $week)
+    public function setWeek(\Volleyball\Bundle\EnrollmentBundle\Entity\Week $week)
     {
         $this->week = $week;
 
@@ -297,13 +278,7 @@ class ActiveEnrollment
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\UserBundle\Entity\User", inversedBy="active_enrollment")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    protected $user;
-    /**
      * Get User
-     *
      * @return Volleyball\Bundle\EnrollmentBundle\Entity\User
      */
     public function getUser()
@@ -316,7 +291,7 @@ class ActiveEnrollment
      * @param \Volleyball\Bundle\EnrollmentBundle\Entity\User $user
      * @return \Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment
      */
-    public function setUser(User $user)
+    public function setUser(\Volleyball\Bundle\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 

@@ -1,14 +1,10 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
+use \Symfony\Component\Validator\Constraints as Assert;
 
-use Volleyball\Bundle\EnrollmentBundle\Entity\Week;
-use Volleyball\Bundle\EnrollmentBundle\Entity\Period;
-use Volleyball\Bundle\FacilityBundle\Entity\Facility;
 use Volleyball\Bundle\UtilityBundle\Traits\SluggableTrait;
 use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
 
@@ -16,11 +12,10 @@ use Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
  * @ORM\Table(name="season")
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\SeasonRepository")
  */
-class Season
+class Season implements \Volleyball\Component\Enrollment\Interfaces\SeasonInterface
 {
     use SluggableTrait;
     use TimestampableTrait;
-
 
     /**
      * @ORM\Id
@@ -28,6 +23,36 @@ class Season
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "250",
+     *      minMessage = "Name must be at least {{ limit }} characters length",
+     *      maxMessage = "Name cannot be longer than {{ limit }} characters length"
+     * )
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * Start
+     * @var \DateTime
+     */
+    protected $start;
+    
+    /**
+     * End
+     * @var \DateTime
+     */
+    protected $end;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="season")
+     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
+     */
+    protected $facility;
 
     /**
      * Get id
@@ -40,21 +65,7 @@ class Season
     }
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\Length(
-     *      min = "1",
-     *      max = "250",
-     *      minMessage = "Name must be at least {{ limit }} characters length",
-     *      maxMessage = "Name cannot be longer than {{ limit }} characters length"
-     * )
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * Get name
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
@@ -62,11 +73,7 @@ class Season
     }
 
     /**
-     * Set name
-     *
-     * @param string $name name
-     *
-     * @return Season
+     * @inheritdoc
      */
     public function setName($name)
     {
@@ -76,49 +83,43 @@ class Season
     }
 
     /**
-     * @ORM\Column(name="year", type="date")
-     * @var DateTime $year
+     * @inheritdoc
      */
-    protected $year;
-
-    /**
-     * Get year
-     *
-     * @param  boolean $long year format
-     * @return string
-     */
-    public function getYear($long = true)
+    public function getStart()
     {
-        if (!$long) {
-            return date('Y', $this->year);
-        }
-
-        return date('y', $this->year);
+        return $this->start;
     }
-
+    
     /**
-     * Set year
-     *
-     * @param  DateTime $year year
-     * @return Year
+     * @inheritdoc
      */
-    public function setYear(\DateTime $year)
+    public function setStart(\DateTime $start)
     {
-        $this->year = $year;
-
+        $this->start = $start;
+        
+        return $this;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setEnd(\DateTime $end)
+    {
+        $this->end = $end;
+        
         return $this;
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Volleyball\Bundle\FacilityBundle\Entity\Facility", inversedBy="facility")
-     * @ORM\JoinColumn(name="facility_id", referencedColumnName="id")
-     */
-    protected $facility;
-
-    /**
-     * Get facility
-     *
-     * @return Facility
+     * @inheritdoc
      */
     public function getFacility()
     {
@@ -126,13 +127,9 @@ class Season
     }
 
     /**
-     * Set facility
-     *
-     * @param Facility $facility facility
-     *
-     * @return Faculty
+     * @inheritdoc
      */
-    public function setFacility(Facility $facility)
+    public function setFacility(\Volleyball\Bundle\FacilityBundle\Entity\Facility $facility)
     {
         $this->facility = $facility;
 
