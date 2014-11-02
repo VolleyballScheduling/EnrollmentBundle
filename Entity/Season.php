@@ -37,14 +37,21 @@ class Season implements \Volleyball\Component\Enrollment\Interfaces\SeasonInterf
     protected $name;
     
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $description;
+    
+    /**
      * Start
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     protected $start;
     
     /**
      * End
      * @var \DateTime
+     * @ORM\Column(type="datetime")
      */
     protected $end;
     
@@ -133,6 +140,24 @@ class Season implements \Volleyball\Component\Enrollment\Interfaces\SeasonInterf
     {
         $this->facility = $facility;
 
+        return $this;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
         return $this;
     }
 }
