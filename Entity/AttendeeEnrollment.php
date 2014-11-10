@@ -104,7 +104,7 @@ class AttendeeEnrollment implements \Volleyball\Component\Enrollment\Interfaces\
     /**
      * @inheritdoc
      */
-    public function setQuarters(\Volleyball\Componet\Facility\Interfaces\QuartersInterface $quarters)
+    public function setQuarters(\Volleyball\Bundle\FacilityBundle\Entity\Quarters $quarters)
     {
         $this->quarters = $quarters;
         
