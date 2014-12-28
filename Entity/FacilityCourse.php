@@ -12,7 +12,7 @@ use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\FacilityCourseRepository")
  * @ORM\Table(name="facility_enrollment")
  */
-class FacilityCourse implements \Volleyball\Component\Enrollment\Interfaces\FacilityCourseInterface
+class FacilityCourse
 {
     use TimestampableTrait;
 

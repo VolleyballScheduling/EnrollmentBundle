@@ -11,7 +11,7 @@ use \Volleyball\Bundle\UtilityBundle\Traits\TimestampableTrait;
  * @ORM\Entity(repositoryClass="Volleyball\Bundle\EnrollmentBundle\Repository\PasselEnrollmentCollectionRepository")
  * @ORM\Table(name="passel_enrollment")
  */
-class PasselEnrollment implements \Volleyball\Component\Enrollment\Interfaces\PasselEnrollmentInterface
+class PasselEnrollment
 {
     use TimestampableTrait;
 
