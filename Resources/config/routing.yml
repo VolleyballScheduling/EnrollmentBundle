@@ -1,10 +1,8 @@
 import:
+    - 'routing/active_enrollment.yml'
     - 'routing/attendee_class_enrollment.yml'
     - 'routing/attendee_enrollment.yml'
     - 'routing/passel_enrollment.yml'
     - 'routing/period.yml'
     - 'routing/season.yml'
     - 'routing/week.yml'
-
-
-
