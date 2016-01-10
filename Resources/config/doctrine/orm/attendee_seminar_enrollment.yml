@@ -1,0 +1,39 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeSeminarEnrollment:
+    type: Entity
+    table: attendee_seminar_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - attendee_enrollment
+                        - seminar
+    ManyToOne:
+        AttendeeEnrollment:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeEnrollment
+            inversedBy: attendee_seminar_enrollment
+            joinColumn:
+                name: attendee_enrollment_id
+                referencedColumnName: id
+        Seminar:
+            targetEntity: Volleyball\Bundle\CourseBundle\Entity\Seminar
+            inversedBy: attendee_seminar_enrollment
+            joinColumn:
+                name: seminar_id
+                referencedColumnName: id        

@@ -1,6 +1,6 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Controller;
 
-class WeekController extends \Volleyball\Bundle\UtilityBundle\Controller\UtilityController
+class WeekController extends \Volleyball\Bundle\UtilityBundle\Controller\Controller
 {
 }

@@ -1,0 +1,92 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\ActiveEnrollment:
+    type: Entity
+    table: active_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - user
+    ManyToOne:
+        Organization:
+            targetEntity: Volleyball\Bundle\OrganizationBundle\Entity\Organization
+            inversedBy: active_enrollment
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id
+        Council:
+            targetEntity: Volleyball\Bundle\OrganizationBundle\Entity\Council
+            inversedBy: active_enrollment
+            joinColumn:
+                name: council_id
+                referencedColumnName: id
+        Region:
+            targetEntity: Volleyball\Bundle\OrganizationBundle\Entity\Region
+            inversedBy: active_enrollment
+            joinColumn:
+                name: region_id
+                referencedColumnName: id
+        Passel:
+            targetEntity: Volleyball\Bundle\PasselBundle\Entity\Passel
+            inversedBy: active_enrollment
+            joinColumn:
+                name: passel_id
+                referencedColumnName: id
+        Leader:
+            targetEntity: Volleyball\Bundle\PasselBundle\Entity\Leader
+            inversedBy: active_enrollment
+            joinColumn:
+                name: leader_id
+                referencedColumnName: id
+        Attendee:
+            targetEntity: Volleyball\Bundle\AttendeeBundle\Entity\Attendee
+            inversedBy: active_enrollment
+            joinColumn:
+                name: attendee_id
+                referencedColumnName: id
+        Facility:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Facility
+            inversedBy: active_enrollment
+            joinColumn:
+                name: facility_id
+                referencedColumnName: id
+        Season:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Season
+            inversedBy: active_enrollment
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+        Week:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Week
+            inversedBy: active_enrollment
+            joinColumn:
+                name: week_id
+                referencedColumnName: id
+        Period:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Period
+            inversedBy: active_enrollment
+            joinColumn:
+                name: period_id
+                referencedColumnName: id
+        User:
+            targetEntity: Volleyball\Bundle\UserBundle\Entity\User
+            inversedBy: active_enrollment
+            joinColumn:
+                name: user_id
+                referencedColumnName: id

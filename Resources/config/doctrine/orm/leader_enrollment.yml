@@ -1,0 +1,51 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeEnrollment:
+    type: Entity
+    table: leader_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        start:
+            type: date
+            nullable: true
+        end:
+            type: date
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - leader
+                        - passel_enrollment
+    ManyToOne:
+        Leader:
+            targetEntity: Volleyball\Bundle\PasselBundle\Entity\Leader
+            inversedBy: leader_enrollment
+            joinColumn:
+                name: leader_id
+                referencedColumnName: id
+        PasselEnrollment:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\PasselEnrollment
+            inversedBy: leader_enrollment
+            joinColumn:
+                name: passel_enrollment_id
+                referencedColumnName: id
+        Quarters:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Quarters
+            inversedBy: leader_enrollment
+            joinColumn:
+                name: quarters_id
+                referencedColumnName: id

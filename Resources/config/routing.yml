@@ -1,8 +1,88 @@
-import:
-    - 'routing/active_enrollment.yml'
-    - 'routing/attendee_class_enrollment.yml'
-    - 'routing/attendee_enrollment.yml'
-    - 'routing/passel_enrollment.yml'
-    - 'routing/period.yml'
-    - 'routing/season.yml'
-    - 'routing/week.yml'
+# Enrollment Bundle
+'Volleyball:PasselEnrollments':
+    host: passels.{domain}
+    path: /enrollments
+    defaults:
+        _resources:
+            "passel_enrollments": {service: "volleyball.repository.passel_enrollment", method: "findAll"}
+            "passel_enrollment": {service: "volleyball.repository.passel_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:AttendeeEnrollments':
+    host: attendees.{domain}
+    path: /enrollments/
+    defaults:
+        _resources:
+            "attendee_enrollments": {service: "volleyball.repository.attendee_enrollment", method: "findAll"}
+            "attendee_enrollment": {service: "volleyball.repository.attendee_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:AttendeeSeminarEnrollments':
+    host: attendees.{domain}
+    path: /seminar-enrollments
+    defaults:
+        _resources:
+            "attendee_seminar_enrollments": {service: "volleyball.repository.attendee_seminar_enrollment", method: "findAll"}
+            "attendee_seminar_enrollment": {service: "volleyball.repository.attendee_seminar_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:LeaderEnrollments':
+    host: leaders.{domain}
+    path: /enrollments
+    defaults:
+        _resources:
+            "leader_enrollments": {service: "volleyball.repository.leader_enrollment", method: "findAll"}
+            "leader_enrollment": {service: "volleyball.repository.leader_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:FacultyEnrollments':
+    host: faculty.{domain}
+    path: /enrollments
+    defaults:
+        _resources:
+            "faculty_enrollments": {service: "volleyball.repository.faculty_enrollment", method: "findAll"}
+            "faculty_enrollment": {service: "volleyball.repository.faculty_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:FacilityCourseEnrollments':
+    host: courses.{domain}
+    path: /facility-enrollments
+    defaults:
+        _resources:
+            "facility_course_enrollments": {service: "volleyball.repository.facility_course_enrollment", method: "findAll"}
+            "facility_course_enrollment": {service: "volleyball.repository.facility_course_enrollment, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:Seasons':
+    host: seasons.{domain}
+    defaults:
+        _resources:
+            "seasons": {service: "volleyball.repository.season", method: "findAll"}
+            "season": {service: "volleyball.repository.season, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:Weeks':
+    host: weeks.{domain}
+    defaults:
+        _resources:
+            "weeks": {service: "volleyball.repository.week", method: "findAll"}
+            "week": {service: "volleyball.repository.week, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%
+'Volleyball:Periods':
+    host: periods.{domain}
+    defaults:
+        _resources:
+            "periods": {service: "volleyball.repository.period", method: "findAll"}
+            "period": {service: "volleyball.repository.period, method: "find", arguments: [name: "id"]}
+            "session": {service: "service_container", method: "get", arguments: [value: "session"]}
+    requirements:
+        domain: %domain%

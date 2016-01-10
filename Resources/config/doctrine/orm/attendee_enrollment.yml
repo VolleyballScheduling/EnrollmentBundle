@@ -1,0 +1,49 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeEnrollment:
+    type: Entity
+    table: attendee_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - attendee
+                        - passel_enrollment
+    ManyToOne:
+        Attendee:
+            targetEntity: Volleyball\Bundle\AttendeeBundle\Entity\Attendee
+            inversedBy: attendee_enrollment
+            joinColumn:
+                name: attendee_id
+                referencedColumnName: id
+        PasselEnrollment:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\PasselEnrollment
+            inversedBy: attendee_enrollment
+            joinColumn:
+                name: passel_enrollment_id
+                referencedColumnName: id
+        Quarters:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Quarters
+            inversedBy: attendee_enrollment
+            joinColumn:
+                name: quarters_id
+                referencedColumnName: id
+    OneToMany:
+        AttendeeSeminarEnrollments:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeSeminarEnrollment
+            mappedBy: attendee_enrollment

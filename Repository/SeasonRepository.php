@@ -1,13 +1,6 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Repository;
 
-class SeasonRepository extends \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+class SeasonRepository extends \Volleyball\Bundle\UtilityBundle\Doctrine\ORM\EntityRepository
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAlias()
-    {
-        return 'season';
-    }
 }

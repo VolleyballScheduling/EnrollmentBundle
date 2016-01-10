@@ -1,7 +1,7 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Entity;
 
-class Period
+class FacultyEnrollment
 {
     
 }

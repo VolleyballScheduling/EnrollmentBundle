@@ -1,22 +1,22 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\DependencyInjection;
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\Config\FileLocator;
-use \Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use \Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader;
 
-class VolleyballEnrollmentExtension extends Extension
+class VolleyballEnrollmentExtension extends \Symfony\Component\HttpKernel\DependencyInjection\Extension
 {
     /**
      * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, \Symfony\Component\DependencyInjection\ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new \Symfony\Component\Config\FileLocator(__DIR__.'/../Resources/config')
+        );
         $loader->load('services.yml');
     }
 }

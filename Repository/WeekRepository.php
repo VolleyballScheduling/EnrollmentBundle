@@ -1,13 +1,6 @@
 <?php
 namespace Volleyball\Bundle\EnrollmentBundle\Repository;
 
-class WeekRepository extends \Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+class WeekRepository extends \Volleyball\Bundle\UtilityBundle\Doctrine\ORM\EntityRepository
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getAlias()
-    {
-        return 'week';
-    }
 }

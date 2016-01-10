@@ -5,10 +5,17 @@
     "keywords": [
         "scheduling",
         "scheduling system",
-        "enrollment",
-        "vb class",
-        "class",
-        "requirement"
+        "enrollment", 
+        "active enrollment",
+        "attendee enrollment",
+        "attendee seminar enrollment",
+        "facility course enrollment",
+        "passel enrollment",
+        "leader enrollment",
+        "faculty enrollment",
+        "season",
+        "week",
+        "period"
     ],
     "homepage": "http://volleyball.daviddurost.net",
     "license": "MIT",

@@ -1,0 +1,61 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\PasselEnrollment:
+    type: Entity
+    table: passel_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - passel
+                        - passel_enrollment
+    ManyToOne:
+        Passel:
+            targetEntity: Volleyball\Bundle\PasselBundle\Entity\Passel
+            inversedBy: passel_enrollment
+            joinColumn:
+                name: passel_id
+                referencedColumnName: id
+        Facility:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Facility
+            inversedBy: passel_enrollment
+            joinColumn:
+                name: facility_id
+                referencedColumnName: id
+        Season:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Season
+            inversedBy: passel_enrollment
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+        Week:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Week
+            inversedBy: passel_enrollment
+            joinColumn:
+                name: week_id
+                referencedColumnName: id
+        Quarters:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Quarters
+            inversedBy: passel_enrollment
+            joinColumn:
+                name: quarters_id
+                referencedColumnName: id
+    OneToMany:
+        AttendeeEnrollments:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\AttendeeEnrollment
+            mappedBy: passel_enrollment

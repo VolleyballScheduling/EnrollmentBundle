@@ -1,0 +1,48 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\Week:
+    type: Entity
+    table: week
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        description:
+            type: string
+            nullable: true
+        special:
+            type: boolean
+            nullable: true
+        start:
+            type: datetime
+        end:
+            type: datetime
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - name
+    ManyToOne:
+        Season:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Season
+            inversedBy: week
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+    OneToMany:
+        periods:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Period
+            mappedBy: week

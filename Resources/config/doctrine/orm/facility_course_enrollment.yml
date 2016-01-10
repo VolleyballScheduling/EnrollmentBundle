@@ -1,0 +1,50 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\FacilityCourseEnrollment:
+    type: Entity
+    table: facility_course_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - facility
+                        - season
+                        - course
+    ManyToOne:
+        Course:
+            targetEntity: Volleyball\Bundle\CourseBundle\Entity\Course
+            inversedBy: facility_course_enrollment
+            joinColumn:
+                name: course_id
+                referencedColumnName: id
+        Facility:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Facility
+            inversedBy: facility_course_enrollment
+            joinColumn:
+                name: facility_id
+                referencedColumnName: id
+        Season:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Season
+            inversedBy: facility_course_enrollment
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+    OneToMany:
+        Weeks:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Week
+            mappedBy: facility_course_enrollment

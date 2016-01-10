@@ -1,0 +1,61 @@
+Volleyball\Bundle\EnrollmentBundle\Entity\FacultyEnrollment:
+    type: Entity
+    table: faculty_enrollment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+        slug:
+            type: string
+            gedmo:
+                slug:
+                    fields:
+                        - passel
+                        - passel_enrollment
+    ManyToOne:
+        Faculty:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Faculty
+            inversedBy: faculty_enrollment
+            joinColumn:
+                name: faculty_id
+                referencedColumnName: id
+        Facility:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Facility
+            inversedBy: faculty_enrollment
+            joinColumn:
+                name: facility_id
+                referencedColumnName: id
+        Season:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Season
+            inversedBy: faculty_enrollment
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+        Quarters:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Quarters
+            inversedBy: faculty_enrollment
+            joinColumn:
+                name: quarters_id
+                referencedColumnName: id
+        Position:
+            targetEntity: Volleyball\Bundle\FacilityBundle\Entity\Position
+            inversedBy: faculty_enrollment
+            joinColumn:
+                name: position_id
+                referencedColumnName: id
+    OneToMany:
+        Weeks:
+            targetEntity: Volleyball\Bundle\EnrollmentBundle\Entity\Week
+            mappedBy: faculty_enrollment
